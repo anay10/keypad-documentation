@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header id="mainHeader">
+        <h1>Keypad with Push-Buttons</h1>
+    </header>
+
+    <div class="standardTextPara">
+        <h2>Introduction</h2>
+        <p>This is documentaion of implementing keypad with push buttons and without using any pre-written keypad libraries. Difiifculty level of this task is easy. Pre-requisites for this task are basics of C-programming in AVR. Outcome of this task is knowing about basic functioning of a simple <a href="#">MxN Keypad.</a> Debugging (displaying characters) using virtual terminal in Proteus.</p>
+    </div>
+    <section id="diagram">
+        <p>
+            Components required for the project are:<br>
+            Push Buttons, Resistors, Arduino UNO (ATmenga328p), Serial Debugger (virtual terminal in proteus).<br>
+            Main idea is to form a matrix of button and check for each row and column to find out if a button is pressed. A data for value corresponding to each button will be maintained as a 2D array with index of each element corresponding to the position of its respective button in the button matrix.
+        </p>
+        <img src="" alt="">
+        <h3>Circuit Diagram</h3>
+    </section>
+    <br>
+    <div class="standardListPara">
+        <h2>Methodology</h2>
+        <ol>
+            <li>Connect the Button matrix As shown in the circuit diagram. 3 lines for rows and 3 lines for columns should be available to connect to the uC board.</li>
+            <li>We will use PORTB of the uC to take inputs from the keypad. Three row lines will be connected to the pins PBO, PB1, PB2 and the three column lines will be connected to PB3, PB4, PB5</li>
+            <li>In the program, make entire PORTB as OUTPUT</li>
+            <li>Create the key Matrix and two pointers i & j and turn PORTB low in the main.</li>
+            <li>In the while loop:
+                <div id="inElementOL">
+                    <ol>
+                        <li>Turn PB3, PB4 & PB5 HIGH and check which one of the 3 row pins PB0, PB1 or PB2 is pressed. If PB0 is pressed, i = 0, i = 1 for PB1 and i = 2 for PB2.</li>
+                        <li>Turn entire PORTB low again.</li>
+                        <li>Turn PB0, PB1 & PB2 HIGH and check which one of the 3 column pins PB3, PB4 or PB5 is pressed. If PB3 is pressed, j = 0, j = 1 for PB4 and j = 2 for PB5.</li>
+                    </ol>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <div class="Code">
+        <h2>Code:</h2>
+        <p id="codecomment">
+            /*<br>
+            * barebonesKey.c<br>
+            *<br>
+            * Created: 25-07-2020 13:21:45<br>
+            *  Author: ANAY<br>
+            */<br>
+        </p>
+        <code>
+            <p id="code1"><span class="Cblue"><span class="Cblue">void</span></span> <span class="Cred">Init_UART</span>(<span class="Cblue">uint16_t</span> baud)<br>
+            {<br>
+                <span class="Cgreen">//set the baud rate</span><br>
+                UBRR0L = (<span class="Cblue">uint8_t</span>)(103 & 0xFF); <br>
+                UBRR0H = (<span class="Cblue">uint8_t</span>)(103 &gt;&gt; 8); <br>
+                
+                <span class="Cgreen">//enable Rx and Tx pins</span><br>
+                UCSR0B |= (1&lt;&lt;TXEN0) | (1&lt;&lt;RXEN0); <br>
+            }<br>
+            <br>
+            <span class="Cblue">void</span> <span class="Cred">UART_PutChar</span>(<span class="Cblue">unsigned char</span> a) <br>
+            {<br>
+                <span class="Cblue">while</span>(!(UCSR0A & (1&lt;&lt;UDRE0))) <br>
+                {<br>
+            <br>		
+                }<br>
+                UDR0 = a; <br>
+            }<br>
+            <br>
+            <span class="Cblue">void</span> <span class="CRed">UART_PutS</span>(<span class="Cblue">char</span> *S) <br>
+            {<br>
+                <span class="Cblue">while</span>(*S &gt; 0) <br>
+                <span class="Cred">UART_PutChar</span>(*S++);<br>
+            }<br>
+            <br>
+            <span class="Cblue">char</span> <span class="Cred">UART_Receieve</span>()<br>
+            {<br>
+                <span class="Cblue">while</span> ( !(UCSR0A & (1&lt;&lt;RXC0)) ) /* Wait for data to be received */<br>
+                {<br>
+                <br>	
+                }<br>
+                <span class="Cblue">return</span> (char)UDR0; <br>
+            }<br>
+            <br>
+            <span class="Cblue">void</span> <span class="Cred">UART_Getln</span>(<span class="Cblue">char</span>*a, <span class="Cblue">uint8_t</span> n) <br>
+            {<br>
+                <span class="Cblue">uint8_t</span> a_index = 0; <br>
+                <span class="Cblue">char</span> c; <br>
+                <br>
+                <span class="Cblue">do</span><br>
+                {<br>
+                    c = <span class="Cred">UART_Receieve</span>();<br>
+                    a[a_index++] = c; <br>
+                } <span class="Cblue">while</span> (a_index &lt; n && c != '\r'); <br>
+                a[a_index] = '\0'; <br>
+            }<br>
+            <br>
+            <span class="Cblue">int main</span>(<span class="Cblue">void</span>) <br>
+            {<br>
+                DDRB = 0xFF; <br>
+                PORTB = 0x00; <br>
+                <span class="Cblue">char</span> keys[3][3] = {{'3', '6', '9'}, {'2', '5', '8'}, {'1', '4', '7'}};<br>
+                <span class="Cblue">uint8_t</span> i, j, flag = 0; <br>
+                <span class="Cred">Init_UART</span>(9600); <br>
+                <span class="Cred">UART_PutS</span>("Welcome\n\r");<br>
+                <span class="Cblue">while</span>(1) <br>
+                {<br>
+                    PORTB |= (1&lt;&lt;PB3) | (1&lt;&lt;PB4) | (1&lt;&lt;PB5); <br>
+                    <span class="Cblue">if</span>(PINB & (1&lt;&lt;PB0)) <br>
+                    {	<br>
+                        i=0; <br>
+                        flag = 1; <br>
+                    }		
+                    <span class="Cblue">else if</span>(PINB & (1&lt;&lt;PB1)) <br>
+                    {<br>
+                        i=1; <br>
+                        flag = 1; <br>
+                    }		<br>
+                    <span class="Cblue">else if</span>(PINB & (1&lt;&lt;PB2)) <br>
+                    {	<br>
+                        i=2; <br>
+                        flag = 1; <br>
+                    }			<br>
+                    <span class="Cred">_delay_us</span>(100); <br>
+                    PORTB = 0x00; <br>
+                    PORTB |= (1&lt;&lt;PB0) | (1&lt;&lt;PB1) | (1&lt;&lt;PB2);	<br>
+                    <span class="Cblue">if</span>(PINB & (1&lt;&lt;PB3)) <br>
+                        j=0; <br>
+                    <span class="Cblue">else if</span>(PINB & (1&lt;&lt;PB4)) <br>
+                        j=1; <br>
+                    <span class="Cblue">else if</span>(PINB & (1&lt;&lt;PB5)) <br>
+                        j=2;	<br>
+                    <span class="Cblue">if</span>(flag==1)	<br>
+                    {	<br>
+                        <span class="Cred">UART_PutChar</span>(keys[i][j]); <br>
+                        <span class="Cred">UART_PutS</span>("\n\r");<br>
+                        flag = 0; <br>
+                    }<br>
+                    <span class="Cred">_delay_ms</span>(1000); <br>
+                    PORTB = 0x00; <br>
+                    <span class="Cred">_delay_ms</span>(1000); <br>	
+                    <span class="Cgreen">//TODO:: Please write your application code</span> <br>
+                }<br>
+            }<br>            
+        </code></p>
+    </div>
+    <footer id="mainfooter"><p>TRF RoboSapark 2020</p></footer>
+</body>
+</html>

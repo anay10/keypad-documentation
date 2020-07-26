@@ -1,0 +1,198 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/**************************************************************************************************************/
+#mainHeader{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background: slategrey;
+    color: snow;
+    font-size: 36px;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    width: 80%;
+    font-size: 16px;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 1%;
+}
+
+.standardTextPara h2{
+    font-size: 28px;
+    text-align: left;
+    width: 80%;
+    font-weight: 600;
+    margin-top: 1.6em;
+}
+
+.standardTextPara p{
+    font-size: 16px;
+    margin: 1% 5%;
+    font-size: 24px;
+    border: solid steelblue 3px;
+    padding: 10px 20px;
+    text-align: justify;
+    line-height: 1.6em;
+}
+
+.standardTextPara a{
+    text-decoration: none;
+    font-size: 28px;
+    color: orange;
+    font-style: italic;
+}
+
+#diagram img{
+    content: url("./images/diagR1.png");
+    max-width: 500px;
+    position: relative;
+    top: 2em;
+    margin-bottom: 7em;
+}
+
+#diagram p{
+    position: absolute;
+    margin-top: 1.6%;
+    margin-left: 35%;
+    font-size: 24px;
+    line-height: 1.6em;
+    width: 40%;
+    border: solid steelblue 3px;
+    padding: 10px 20px;
+    margin-bottom: 2em;
+}
+
+#diagram h3{
+    position: absolute;
+    top: 22em;
+    font-size: 28px;
+    font-weight: 600;
+    margin:2.5em 5em;
+    font-style: italic;
+}
+
+.standardListPara h2{
+    font-size: 28px;
+    text-align: left;
+    width: 80%;
+    font-weight: 600;
+    margin-top: 1.6em;
+}
+
+.standardListPara ol{
+    list-style-type: decimal;
+    margin: 2% 5%;
+}
+
+.standardListPara li{
+    font-size: 24px;
+    line-height: 1em;
+    margin-bottom: 1%;
+    word-spacing: 0.1em;
+    letter-spacing: 1px;
+    border: slategrey solid 3px;
+    padding: 2%;
+}
+
+.standardListPara #inElementOL ol{
+    list-style-type: lower-alpha;
+}
+
+.standardListPara #inElementOL li{
+    font-size: 22px;
+    margin: 2%;
+    border: none;
+}
+
+.Code h2{
+    font-size: 28px;
+    text-align: left;
+    width: 80%;
+    font-weight: 600;
+    margin-top: 1.6em;
+}
+
+.Code #codecomment{
+    margin: 1% 8%;
+    color: green;
+    font-size: 24px;
+
+}
+
+.Code #code1{
+    margin: 1% 8%;
+    font-size: 24px;
+    line-height: 1.6em;
+}
+
+.Cred{
+    color: brown;
+}
+
+.Cblue{
+    color: blue;
+}
+
+.Cgreen{
+    color: green;
+}
+
+#mainfooter p{
+    position: static;
+    text-align: center;
+    width: 100%;
+    background: slategrey;
+    color: snow;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 10px 20px;
+    margin-top: 2%;
+}
